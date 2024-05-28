@@ -34,7 +34,7 @@ services:
       KAFKA_LOG_DIRS: /var/log/kafka
       KAFKA_NUM_PARTITIONS: 2
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_T OPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 100
@@ -136,6 +136,7 @@ services:
     volumes:
       - ./connectors:/home/appuser/connectors
       - ./libs:/home/appuser/libs
+      - ./data:/home/appuser/data
     environment:
       CLASSPATH: /home/appuser/libs/*
       CONNECT_BOOTSTRAP_SERVERS: "broker01:9093,broker02:9093,broker03:9093"
@@ -192,6 +193,7 @@ services:
     volumes:
       - ./connectors:/home/appuser/connectors
       - ./libs:/home/appuser/libs
+      - ./data:/home/appuser/data
     environment:
       CLASSPATH: /home/appuser/libs/*
       CONNECT_BOOTSTRAP_SERVERS: "broker01:9093,broker02:9093,broker03:9093"
@@ -243,20 +245,20 @@ services:
         condition: service_healthy
       broker03:
         condition: service_healthy
-      # kc01:
-      #   condition: service_healthy
-      # kc02:
-      #   condition: service_healthy
+      kc01:
+        condition: service_healthy
+      kc02:
+        condition: service_healthy
       # schema-registry:
       #   condition: service_healthy
     environment:
       KAFKA_CLUSTERS_0_NAME: vdt-kafka-cluster
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker01:9093,broker02:9093,broker03:9093
       KAFKA_CLUSTERS_0_METRICS_PORT: 9090
-      # KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: kc01
-      # KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kc01:8083
-      # KAFKA_CLUSTERS_0_KAFKACONNECT_1_NAME: kc02
-      # KAFKA_CLUSTERS_0_KAFKACONNECT_1_ADDRESS: http://kc02:8083
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: kc01
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kc01:8083
+      KAFKA_CLUSTERS_0_KAFKACONNECT_1_NAME: kc02
+      KAFKA_CLUSTERS_0_KAFKACONNECT_1_ADDRESS: http://kc02:8083
       # KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
     mem_limit: ${MEM_LIMIT}
     healthcheck:
